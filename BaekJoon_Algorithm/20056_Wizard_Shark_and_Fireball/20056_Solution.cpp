@@ -221,42 +221,7 @@ void move()
                     (map[y][x].even > 0 && map[y][x].odd == 0))
                 {
                     dir = 0;
-                    // for (int dir = 0; dir < 8; dir += 2)
-                    // {
-                    //     int ny = y + map[y][x].speed * dy[dir];
-                    //     int nx = x + map[y][x].speed * dx[dir];
-
-                    //     if( ny < 0) ny = N - ((-ny) % N);
-                    //     if( ny >= N) ny = ny % N;
-                    //     if( nx < 0) nx = N - ((-nx) % N);
-                    //     if( nx >= N) nx = nx % N;
-
-                    //     temp[ny][nx].ball++;
-                    //     temp[ny][nx].mass += map[y][x].mass;
-                    //     temp[ny][nx].speed += map[y][x].speed;
-                    //     temp[ny][nx].dir = dir;
-                    //     temp[ny][nx].even++;
-                    // }
                 }
-                //else 
-                //{
-                //    dir = 1;
-                    // for (int dir = 1; dir < 8; dir += 2)
-                    // {
-                    //     int ny = y + map[y][x].speed * dy[dir];
-                    //     int nx = x + map[y][x].speed * dx[dir];
-
-                    //     if( ny < 0) ny = N - ((-ny) % N);
-                    //     if( ny >= N) ny = ny % N;
-                    //     if( nx < 0) nx = N - ((-nx) % N);
-                    //     if( nx >= N) nx = nx % N;
-                    //     temp[ny][nx].ball++;
-                    //     temp[ny][nx].mass += map[y][x].mass;
-                    //     temp[ny][nx].speed += map[y][x].speed;
-                    //     temp[ny][nx].dir = dir;
-                    //     temp[ny][nx].odd++;
-                    // }
-                //}
 
                 for( dir; dir < 8; dir += 2)
                 {
@@ -271,7 +236,7 @@ void move()
                     temp[ny][nx].mass += map[y][x].mass;
                     temp[ny][nx].speed += map[y][x].speed;
                     temp[ny][nx].dir = dir;
-                    (dir == 0) ? temp[ny][nx].even++ : temp[ny][nx].odd++;
+                    (dir%2 == 0) ? temp[ny][nx].even++ : temp[ny][nx].odd++;
                 }
             }
         }
