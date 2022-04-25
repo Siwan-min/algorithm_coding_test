@@ -145,10 +145,10 @@
 // }
 
 #include <iostream>
+#include <cstring>
 
 #define MAX 50
-
-using namespace std;
+#define endl "\n"
 
 struct BALL {
     int ball = 0;
@@ -216,55 +216,69 @@ void move()
             }
             if (map[y][x].ball == 4)
             {
+                int dir = 1;
                 if((map[y][x].odd > 0 && map[y][x].even == 0) ||
                     (map[y][x].even > 0 && map[y][x].odd == 0))
                 {
-                    for (int dir = 0; dir < 8; dir += 2)
-                    {
-                        int ny = y + map[y][x].speed * dy[dir];
-                        int nx = x + map[y][x].speed * dx[dir];
+                    dir = 0;
+                    // for (int dir = 0; dir < 8; dir += 2)
+                    // {
+                    //     int ny = y + map[y][x].speed * dy[dir];
+                    //     int nx = x + map[y][x].speed * dx[dir];
 
-                        if( ny < 0) ny = N - ((-ny) % N);
-                        if( ny >= N) ny = ny % N;
-                        if( nx < 0) nx = N - ((-nx) % N);
-                        if( nx >= N) nx = nx % N;
+                    //     if( ny < 0) ny = N - ((-ny) % N);
+                    //     if( ny >= N) ny = ny % N;
+                    //     if( nx < 0) nx = N - ((-nx) % N);
+                    //     if( nx >= N) nx = nx % N;
 
-                        temp[ny][nx].ball++;
-                        temp[ny][nx].mass += map[y][x].mass;
-                        temp[ny][nx].speed += map[y][x].speed;
-                        temp[ny][nx].dir = dir;
-                        temp[ny][nx].even++;
-                    }
+                    //     temp[ny][nx].ball++;
+                    //     temp[ny][nx].mass += map[y][x].mass;
+                    //     temp[ny][nx].speed += map[y][x].speed;
+                    //     temp[ny][nx].dir = dir;
+                    //     temp[ny][nx].even++;
+                    // }
                 }
-                else 
-                {
-                    for (int dir = 1; dir < 8; dir += 2)
-                    {
-                        int ny = y + map[y][x].speed * dy[dir];
-                        int nx = x + map[y][x].speed * dx[dir];
+                //else 
+                //{
+                //    dir = 1;
+                    // for (int dir = 1; dir < 8; dir += 2)
+                    // {
+                    //     int ny = y + map[y][x].speed * dy[dir];
+                    //     int nx = x + map[y][x].speed * dx[dir];
 
-                        if( ny < 0) ny = N - ((-ny) % N);
-                        if( ny >= N) ny = ny % N;
-                        if( nx < 0) nx = N - ((-nx) % N);
-                        if( nx >= N) nx = nx % N;
-                        temp[ny][nx].ball++;
-                        temp[ny][nx].mass += map[y][x].mass;
-                        temp[ny][nx].speed += map[y][x].speed;
-                        temp[ny][nx].dir = dir;
-                        temp[ny][nx].odd++;
-                    }
+                    //     if( ny < 0) ny = N - ((-ny) % N);
+                    //     if( ny >= N) ny = ny % N;
+                    //     if( nx < 0) nx = N - ((-nx) % N);
+                    //     if( nx >= N) nx = nx % N;
+                    //     temp[ny][nx].ball++;
+                    //     temp[ny][nx].mass += map[y][x].mass;
+                    //     temp[ny][nx].speed += map[y][x].speed;
+                    //     temp[ny][nx].dir = dir;
+                    //     temp[ny][nx].odd++;
+                    // }
+                //}
+
+                for( dir; dir < 8; dir += 2)
+                {
+                    int ny = y + map[y][x].speed * dy[dir];
+                    int nx = x + map[y][x].speed * dx[dir];
+
+                    if( ny < 0) ny = N - ((-ny) % N);
+                    if( ny >= N) ny = ny % N;
+                    if( nx < 0) nx = N - ((-nx) % N);
+                    if( nx >= N) nx = nx % N;
+                    temp[ny][nx].ball++;
+                    temp[ny][nx].mass += map[y][x].mass;
+                    temp[ny][nx].speed += map[y][x].speed;
+                    temp[ny][nx].dir = dir;
+                    (dir == 0) ? temp[ny][nx].even++ : temp[ny][nx].odd++;
                 }
             }
         }
     }
 
-    for (int y = 0; y < N; ++y)
-    {
-        for (int x = 0; x < N; ++x)
-        {
-            map[y][x] = temp[y][x];
-        }
-    }
+    memcpy(map, temp, sizeof(temp));
+    
 }
 
 void split() 
@@ -281,8 +295,7 @@ void split()
 
                 if (map[y][x].mass == 0)
                 {
-                    BALL init;
-                    map[y][x] = init;
+                    memset(&map[y][x], 0, sizeof(map[y][x]));                    
                 }
             }
         }
@@ -291,12 +304,16 @@ void split()
 
 int main()
 {
-    cin >> N >> M >> K;
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    std::cout.tie(NULL);
+    
+    std::cin >> N >> M >> K;
 
     for (int i = 0; i < M; i++)
     {
         int y, x, m, s, d;
-        cin>>y>>x>>m>>s>>d;
+        std::cin>>y>>x>>m>>s>>d;
         y--;
         x--;
         map[y][x].ball++;
@@ -321,5 +338,5 @@ int main()
     }
     
     int ans = get_count();
-    cout << ans << endl;
+    std::cout << ans << endl;
 }
